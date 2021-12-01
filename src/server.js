@@ -1,14 +1,14 @@
-import express from 'express';
+import express from 'express'
 
-import cors from 'cors';
+import cors from 'cors'
 
-import listEndpoints from 'express-list-endpoints';
+import listEndpoints from 'express-list-endpoints'
 
-import authorsRouter from '../src/services/authors/index.js';
+import authorsRouter from '../src/services/authors/index.js'
 
-const server = express();
+const server = express()
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5001
 
 const corsOptions = {
     origin: function (origin, callback) {
@@ -19,16 +19,16 @@ const corsOptions = {
             callback(new Error({ status: 500, message: "CORS Error"}));
         }
     }
-};
+}
 
-server.use(cors(corsOptions));
+server.use(cors(corsOptions))
 
-server.use(express.json());
+server.use(express.json()) // if dont add before the endpoints all requests will return undefined
 
-server.use("/authors", authorsRouter);
+server.use("/authors", authorsRouter)
 
-console.log(listEndpoints(server));
+console.log(listEndpoints(server))
 
-server.listen(PORT, () => console.log(`Server is running on port: `, PORT));
+server.listen(PORT, () => console.log(`Server is running on port: `, PORT))
 
-server.once("error", (error) => console.log(`Server is not running due to: ${error}`));
+server.once("error", (error) => console.log(`Server is not running due to: ${error}`))
