@@ -12,6 +12,8 @@ const __filename = fileURLToPath(import.meta.url); // Storing the file's directo
 
 const __dirname = dirname(__filename); // Storing the filename path as the directory name
 
+const authorsFilePath = path.join(__dirname, 'authors.json')
+
 const authorsRouter = express.Router(); 
 
 // Create new author
