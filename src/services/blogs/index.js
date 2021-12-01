@@ -14,10 +14,10 @@ import { validationResult } from 'express-validator'
 
 const blogsRouter = express.Router()
 
-const blogsJSONPath = join(dirname(fileURLToPath(import.meta.url)), "blogs.json")
+const blogsJSONPath = join(dirname(fileURLToPath(import.meta.url)), 'blogs.json')
 
 const getBlogs = () => JSON.parse(fs.readFileSync(blogsJSONPath, 'utf8'))
-const writeBlogs = content = fs.writeFileSync(blogsJSONPath, JSON.stringify(content))
+const writeBlogs = content => fs.writeFileSync(blogsJSONPath, JSON.stringify(content))
 
 blogsRouter.post("/", (req, res, next) => {
     try {
@@ -72,7 +72,7 @@ blogsRouter.put("/:blogId", (req, res, next) => {
     try {
         const blogs = getBlogs()
 
-        const index = blogs.findIndex(blogs => blog.id === req.params.blogId)
+        const index = blogs.findIndex(blogs => blogs.id === req.params.blogId)
 
         const blogToModify = blogs.find(blog => blog.id === req.params.blogId)[index]
         const updatedFields = req.body
