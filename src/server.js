@@ -4,9 +4,9 @@ import cors from 'cors';
 
 import listEndpoints from 'express-list-endpoints';
 
-import authorsRouter from './authors/index.js';
+import authorsRouter from '../src/services/authors/index.js';
 
-const server = express;
+const server = express();
 
 const PORT = process.env.PORT || 5001;
 

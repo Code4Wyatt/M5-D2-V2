@@ -143,41 +143,41 @@ authorsRouter.get("/:id", async (req, res, next) => {
     }
   });
   
-  authorsRouter.put(
-    "/:id/avatar",
-    parseFile.single("avatar"), // parse/analyse single file titled avatar
-    uploadFile, // upload the file
-    async (req, res, next) => {
-      try {
-        const fileAsBuffer = fs.readFileSync(authorsFilePath);
+  // authorsRouter.put(
+  //   "/:id/avatar",
+  //   parseFile.single("avatar"), // parse/analyse single file titled avatar
+  //   uploadFile, 
+  //   async (req, res, next) => {
+  //     try {
+  //       const fileAsBuffer = fs.readFileSync(authorsFilePath);
   
-        const fileAsString = fileAsBuffer.toString();
+  //       const fileAsString = fileAsBuffer.toString();
   
-        let fileAsJSONArray = JSON.parse(fileAsString);
+  //       let fileAsJSONArray = JSON.parse(fileAsString);
   
-        const authorIndex = fileAsJSONArray.findIndex(
-          (author) => author.id === req.params.id
-        );
-        if (!authorIndex == -1) {
-          res
-            .status(404)
-            .send({ message: `Author with ${req.params.id} is not found!` });
-        }
-        const previousAuthorData = fileAsJSONArray[authorIndex];
-        const changedAuthor = {
-          ...previousAuthorData,
-          avatar: req.file,
-          updatedAt: new Date(),
-          id: req.params.id,
-        };
-        fileAsJSONArray[authorIndex] = changedAuthor;
-        fs.writeFileSync(authorsFilePath, JSON.stringify(fileAsJSONArray));
-        res.send(changedAuthor);
-      } catch (error) {
-        res.send(500).send({ message: error.message });
-      }
-    }
-  );
+  //       const authorIndex = fileAsJSONArray.findIndex(
+  //         (author) => author.id === req.params.id
+  //       );
+  //       if (!authorIndex == -1) {
+  //         res
+  //           .status(404)
+  //           .send({ message: `Author with ${req.params.id} is not found!` });
+  //       }
+  //       const previousAuthorData = fileAsJSONArray[authorIndex];
+  //       const changedAuthor = {
+  //         ...previousAuthorData,
+  //         avatar: req.file,
+  //         updatedAt: new Date(),
+  //         id: req.params.id,
+  //       };
+  //       fileAsJSONArray[authorIndex] = changedAuthor;
+  //       fs.writeFileSync(authorsFilePath, JSON.stringify(fileAsJSONArray));
+  //       res.send(changedAuthor);
+  //     } catch (error) {
+  //       res.send(500).send({ message: error.message });
+  //     }
+  //   }
+  // );
   
   export default authorsRouter;
 
