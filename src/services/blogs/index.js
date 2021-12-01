@@ -4,15 +4,13 @@ import fs from 'fs'
 
 import { fileURLToPath } from 'url'
 
-import { dirname, join } from 'path-join'
+import { dirname, join } from 'path'
 
 import uniqid from 'uniqid'
 
 import createHttpError from 'http-errors'
 
 import { validationResult } from 'express-validator'
-
-import { blogsValidation } from './validation.js'
 
 const blogsRouter = express.Router()
 

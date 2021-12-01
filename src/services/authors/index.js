@@ -1,20 +1,20 @@
-import express from 'express';
+import express from 'express'
 
-import fs from 'fs'; // File System - allows you to work with the file system on your computer
+import fs from 'fs' // File System - allows you to work with the file system on your computer
 
-import uniqid from 'uniqid'; // Used for creating unique ID's
+import uniqid from 'uniqid' // Used for creating unique ID's
 
-import { fileURLToPath } from 'url'; // Converts the url to picomatch
+import { fileURLToPath } from 'url' // Converts the url to picomatch
 
-import path, {dirname} from "path"; // Dirname gives us the absolute path of the directory the currently executed file is in
+import path, {dirname} from "path" // Dirname gives us the absolute path of the directory the currently executed file is in
 
-const __filename = fileURLToPath(import.meta.url); // Storing the file's directory as a path
+const __filename = fileURLToPath(import.meta.url) // Storing the file's directory as a path
 
-const __dirname = dirname(__filename); // Storing the filename path as the directory name
+const __dirname = dirname(__filename) // Storing the filename path as the directory name
 
 const authorsFilePath = path.join(__dirname, 'authors.json')
 
-const authorsRouter = express.Router(); 
+const authorsRouter = express.Router()
 
 // Create new author
 
@@ -37,7 +37,7 @@ authorsRouter.post("/", async (req, res, next) => {
 
         const fileAsAString = fileAsBuffer.toString(); // Directory location in string format
 
-        const fileAsJsonArray = JSON.parse(fileAsAString); // Parsing the file above into a JSON array
+        const fileAsJSONArray = JSON.parse(fileAsAString); // Parsing the file above into a JSON array
 
         fileAsJSONArray.push(author); // Pushing the author req.body into the JSON array
 
@@ -45,7 +45,7 @@ authorsRouter.post("/", async (req, res, next) => {
 
         res.send(author); // Sending the authors data
     } catch (error) {
-        res.send(500).send({ message: error.message });
+        res.status(500).send({ message: error.message });
     }
 })
 
@@ -60,7 +60,7 @@ authorsRouter.get("/", async (req, res, next) => {
     } catch (error) {
         res.send(500).send({ message: error.message });
     }
-});
+})
 
 // get single authors
 authorsRouter.get("/:id", async (req, res, next) => {
@@ -83,7 +83,7 @@ authorsRouter.get("/:id", async (req, res, next) => {
     } catch (error) {
       res.send(500).send({ message: error.message });
     }
-  });
+  })
   
   // delete  author
   authorsRouter.delete("/:id", async (req, res, next) => {
@@ -110,7 +110,7 @@ authorsRouter.get("/:id", async (req, res, next) => {
     } catch (error) {
       res.send(500).send({ message: error.message });
     }
-  });
+  })
   
   //  update author
   authorsRouter.put("/:id", async (req, res, next) => {
@@ -143,7 +143,7 @@ authorsRouter.get("/:id", async (req, res, next) => {
     } catch (error) {
       res.send(500).send({ message: error.message });
     }
-  });
+  })
   
   // authorsRouter.put(
   //   "/:id/avatar",
@@ -179,7 +179,7 @@ authorsRouter.get("/:id", async (req, res, next) => {
   //       res.send(500).send({ message: error.message });
   //     }
   //   }
-  // );
+  // )
   
   export default authorsRouter;
 

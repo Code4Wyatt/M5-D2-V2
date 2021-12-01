@@ -6,26 +6,19 @@ import listEndpoints from 'express-list-endpoints'
 
 import authorsRouter from '../src/services/authors/index.js'
 
+import blogsRouter from '../src/services/blogs/index.js'
+
 const server = express()
 
 const PORT = process.env.PORT || 5001
 
-const corsOptions = {
-    origin: function (origin, callback) {
-        console.log("Current origin: ", origin);
-        if (!origin || whitelist.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error({ status: 500, message: "CORS Error"}));
-        }
-    }
-}
-
-server.use(cors(corsOptions))
+server.use(cors())
 
 server.use(express.json()) // if dont add before the endpoints all requests will return undefined
 
 server.use("/authors", authorsRouter)
+
+server.use("/blogs", blogsRouter)
 
 console.log(listEndpoints(server))
 
