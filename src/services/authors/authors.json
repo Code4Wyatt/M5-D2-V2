@@ -1,1 +1,1 @@
-[{"id":"4eswe1okwnprdra","name":"Paul","surname":"Murray","email":"email@address.com","dateOfBirth":"03/10/1990","avatar":"https://ui-avatars.com/api/?name=Paul+Murray","createdAt":"2021-12-01T15:58:26.661Z","updateAt":"2021-12-01T15:58:26.661Z"}]
+[{"id":"4eswe1okwnprdra","name":"Paul","surname":"Murray","email":"email@address.com","dateOfBirth":"03/10/1990","avatar":"http://localhost:3000/4eswe1okwnprdra.jpg","createdAt":"2021-12-01T15:58:26.661Z","updateAt":"2021-12-01T15:58:26.661Z","updatedAt":"2021-12-02T16:53:20.522Z"}]

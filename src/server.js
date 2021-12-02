@@ -8,6 +8,8 @@ import authorsRouter from '../src/services/authors/index.js'
 
 import blogsRouter from '../src/services/blogs/index.js'
 
+import {badRequestHandler, genericErrorsHandler, unauthorizedHandler, notFoundHandler} from './errorHandlers.js'
+
 const server = express()
 
 const PORT = process.env.PORT || 5001
@@ -21,6 +23,12 @@ server.use("/authors", authorsRouter)
 server.use("/blogs", blogsRouter)
 
 console.log(listEndpoints(server))
+
+server.use(genericErrorsHandler)
+server.use(unauthorizedHandler)
+server.use(badRequestHandler)
+server.use(notFoundHandler)
+
 
 server.listen(PORT, () => console.log(`Server is running on port: `, PORT))
 
