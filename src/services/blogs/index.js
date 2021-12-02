@@ -11,6 +11,7 @@ import uniqid from 'uniqid'
 import createHttpError from 'http-errors'
 
 import { validationResult } from 'express-validator'
+import { parseFile, uploadFile } from '../../utils/index.js'
 
 const blogsRouter = express.Router()
 
@@ -19,9 +20,11 @@ const blogsJSONPath = join(dirname(fileURLToPath(import.meta.url)), 'blogs.json'
 const getBlogs = () => JSON.parse(fs.readFileSync(blogsJSONPath, 'utf8'))
 const writeBlogs = content => fs.writeFileSync(blogsJSONPath, JSON.stringify(content))
 
+// Create blog
+
 blogsRouter.post("/", (req, res, next) => {
     try {
-        const errorsList = validationResult(req)
+        const errorsList = validationResult(req) 
         if (!errorsList.isEmpty()) {
             next(createHttpError(400, "There is an error in the request body", {errorsList}))
         } else {
@@ -38,6 +41,8 @@ blogsRouter.post("/", (req, res, next) => {
     }
 })
 
+// Get blogs
+
 blogsRouter.get("/", (req, res, next) => {
     try {
         const blogs = getBlogs()
@@ -53,6 +58,8 @@ blogsRouter.get("/", (req, res, next) => {
     }
 })
 
+// Get single blog
+
 blogsRouter.get("/:blogId", (req, res, next) => {
     try {
         const blogs = getBlogs()
@@ -67,6 +74,8 @@ blogsRouter.get("/:blogId", (req, res, next) => {
         next(err)
     }
 })
+
+// Edit blog
 
 blogsRouter.put("/:blogId", (req, res, next) => {
     try {
@@ -88,6 +97,37 @@ blogsRouter.put("/:blogId", (req, res, next) => {
         next(error)
     }
 })
+
+// Edit blog cover
+
+blogsRouter.put("/:id/cover", parseFile.single("cover"), uploadFile, async (req, res, next) => {
+    try {
+        const fileAsBuffer = fs.readFileSync(blogsFilePath)
+        const fileAsString = fileAsBuffer.toString()
+
+        let fileAsJSONArray = JSON.parse(fileAsString)
+
+        const blogIndex = fileAsJSONArray.findIndex((blog) => blog.id === req.params.id)
+        if (!blogIndex == -1) {
+            res.status(404).send({ message: `blog with ${req.params.id} not found`})
+        }
+        const previousblogData = fileAsJSONArray[blogIndex]
+        const changedblog = {
+            ...previousblogData,
+            cover: req.file,
+            updatedAt: new Date(),
+            id: req.params.id,
+        }
+        fileAsJSONArray[blogIndex] = changedblog
+
+        fs.writeFileSync(blogsFilePath, JSON.stringify(fileAsJSONArray))
+        res.send(changedblog)
+    } catch (err) {
+        res.status(500).send({ message: error.message })
+    }
+})
+
+// Delete blog
 
 blogsRouter.delete("/:blogId", (req, res, next) => {
     try {
