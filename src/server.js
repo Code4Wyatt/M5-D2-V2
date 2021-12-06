@@ -36,7 +36,7 @@ const corsOptions = {
     },
 }
 
-server.use(cors())
+server.use(cors(corsOptions))
 
 server.use(express.json()) // if dont add before the endpoints all requests will return undefined
 
