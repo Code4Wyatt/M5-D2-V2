@@ -12,7 +12,11 @@ import {badRequestHandler, genericErrorsHandler, unauthorizedHandler, notFoundHa
 
 const server = express()
 
-const PORT = process.env.PORT || 5001
+console.log(process.env.FE_LOCAL_URL)
+
+const PORT = process.env.PORT
+
+console.log(PORT)
 
 const whiteList = [process.env.FE_LOCAL_URL, process.env.FE_REMOTE_URL]
 
@@ -32,7 +36,7 @@ const corsOptions = {
     },
 }
 
-server.use(cors(corsOptions))
+server.use(cors())
 
 server.use(express.json()) // if dont add before the endpoints all requests will return undefined
 
@@ -40,13 +44,12 @@ server.use("/authors", authorsRouter)
 
 server.use("/blogs", blogsRouter)
 
-console.log(listEndpoints(server))
+// console.log(listEndpoints(server))
 
 server.use(genericErrorsHandler)
 server.use(unauthorizedHandler)
 server.use(badRequestHandler)
 server.use(notFoundHandler)
-
 
 server.listen(PORT, () => console.log(`Server is running on port: `, PORT))
 
