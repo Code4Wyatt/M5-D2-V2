@@ -102,7 +102,7 @@ blogsRouter.put("/:blogId", (req, res, next) => {
 
 blogsRouter.put("/:id/cover", parseFile.single("cover"), uploadFile, async (req, res, next) => {
     try {
-        const fileAsBuffer = fs.readFileSync(blogsFilePath)
+        const fileAsBuffer = fs.readFileSync(blogsJSONPath)
         const fileAsString = fileAsBuffer.toString()
 
         let fileAsJSONArray = JSON.parse(fileAsString)
@@ -120,9 +120,9 @@ blogsRouter.put("/:id/cover", parseFile.single("cover"), uploadFile, async (req,
         }
         fileAsJSONArray[blogIndex] = changedblog
 
-        fs.writeFileSync(blogsFilePath, JSON.stringify(fileAsJSONArray))
+        fs.writeFileSync(blogsJSONPath, JSON.stringify(fileAsJSONArray))
         res.send(changedblog)
-    } catch (err) {
+    } catch (error) {
         res.status(500).send({ message: error.message })
     }
 })

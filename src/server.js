@@ -14,7 +14,25 @@ const server = express()
 
 const PORT = process.env.PORT || 5001
 
-server.use(cors())
+const whiteList = [process.env.FE_LOCAL_URL, process.env.FE_REMOTE_URL]
+
+const corsOptions = {
+    
+    origin: function (origin, next) {
+        // Determine the origin from each request
+        console.log("ORIGIN: ", origin)
+
+        if (!origin || whiteList.indexOf(origin) !== -1) {
+            // If origin is in the whitelist, approve access
+            next(null, true)
+        } else {
+            // If the origin isn't in the whitelist, deny access
+            next(new Error("CORS ERROR"))
+        }
+    },
+}
+
+server.use(cors(corsOptions))
 
 server.use(express.json()) // if dont add before the endpoints all requests will return undefined
 

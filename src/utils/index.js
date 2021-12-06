@@ -12,7 +12,7 @@ const __dirname = dirname(__filename)
 
 export const authorsFilePath = join(process.cwd(), "./src/services/authors/authors.json")
 
-export const blogsFilePath = join(dirname(fileURLToPath(import.meta.url)), "../../services/blogs/blogs.json")
+export const blogsFilePath = join(process.cwd(), "./src/services/blogs/blogs.json")
 
 const publicDirectory = path.join(process.cwd(), "./public")
 
