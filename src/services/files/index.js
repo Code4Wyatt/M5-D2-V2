@@ -73,7 +73,7 @@ filesRouter.get("/downloadJSON", async (req, res, next) => {
   }
 })
 
-filesRouter.get("/downloadPDF", async (req, res, next) => {
+filesRouter.get("/:blogId/downloadPDF", async (req, res, next) => {
   try {
     res.setHeader("Content-Disposition", "attachment; filename=blog.pdf")
     const source = getPDFReadableStream({ firstName: "Paul", lastName: "Murray" })

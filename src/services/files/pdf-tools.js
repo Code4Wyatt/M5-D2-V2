@@ -44,9 +44,6 @@ export const getPDFReadableStream = data => {
         fontSize: 15,
         bold: true,
       },
-      // quote: {
-      //   italics: true,
-      // },
       small: {
         fontSize: 8,
       },
@@ -57,11 +54,11 @@ export const getPDFReadableStream = data => {
   }
 
   const options = {
-    // ...
+    // ?
   }
 
   const pdfReadableStream = printer.createPdfKitDocument(docDefinition, options)
-  // pdfReadableStream.pipe(fs.createWriteStream("document.pdf")) // pipe is the old syntax for piping two streams together
+ 
   pdfReadableStream.end()
 
   return pdfReadableStream

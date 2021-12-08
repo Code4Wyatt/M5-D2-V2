@@ -48,7 +48,7 @@ server.use("/authors", authorsRouter)
 
 server.use("/blogs", blogsRouter)
 
-// console.log(listEndpoints(server))
+console.log(listEndpoints(server))
 
 server.use(genericErrorsHandler)
 server.use(unauthorizedHandler)

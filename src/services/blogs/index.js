@@ -142,4 +142,32 @@ blogsRouter.delete("/:blogId", (req, res, next) => {
     }
 })
 
+blogsRouter.get("/downloadJSON", async (req, res, next) => {
+  try {
+    res.setHeader("Content-disposition", "attachment; filename=blogjson.json.gz")
+
+    const source = getBlogsReadableStream()
+    const transform = createGzip()
+    const destination = res
+    pipeling(source, transform, destination, err => {
+      if(err) next(err)
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+blogsRouter.get("/:blogId/downloadPDF", async (req, res, next) => {
+  try {
+    res.setHeader("Content-Disposition", "attachment; filename=blog.pdf")
+    const source = getPDFReadableStream({ firstName: "Paul", lastName: "Murray" })
+    const destination = res
+    pipeline(source, destination, err => {
+      if(err) next(err)
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
 export default blogsRouter
