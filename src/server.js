@@ -2,6 +2,8 @@ import express from 'express'
 
 import cors from 'cors'
 
+import { join } from "path"
+
 import listEndpoints from 'express-list-endpoints'
 
 import authorsRouter from '../src/services/authors/index.js'
@@ -17,6 +19,8 @@ console.log(process.env.FE_LOCAL_URL)
 const PORT = process.env.PORT
 
 console.log(PORT)
+
+const publicFolderPath = join(process.cwd(), "./public")
 
 const whiteList = [process.env.FE_LOCAL_URL, process.env.FE_REMOTE_URL]
 
