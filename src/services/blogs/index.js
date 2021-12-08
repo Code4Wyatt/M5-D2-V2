@@ -87,7 +87,7 @@ blogsRouter.get("/:blogId/pdf", async (req, res, next) => {
             pdfStream.end()
         }
     } catch (err) {
-        res.send(500).send({ message: error.message })
+        res.status(500).send({ message: error.message })
     }
 })
 
@@ -158,7 +158,7 @@ blogsRouter.delete("/:blogId", async (req, res, next) => {
     }
 })
 
-blogsRouter.get("/downloadJSON", async (req, res, next) => {
+blogsRouter.get("/:blodId/downloadJSON", async (req, res, next) => {
   try {
     res.setHeader("Content-disposition", "attachment; filename=blogjson.json.gz")
 
