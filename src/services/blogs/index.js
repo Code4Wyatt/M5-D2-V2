@@ -11,7 +11,7 @@ import uniqid from 'uniqid'
 import createHttpError from 'http-errors'
 
 import { validationResult } from 'express-validator'
-import { parseFile, uploadFile } from '../../utils/index.js'
+import { parseFile, uploadFile } from '../../utils/upload/index.js'
 
 const blogsRouter = express.Router()
 
@@ -22,14 +22,14 @@ const writeBlogs = content => fs.writeFileSync(blogsJSONPath, JSON.stringify(con
 
 // Create blog
 
-blogsRouter.post("/", (req, res, next) => {
+blogsRouter.post("/", async (req, res, next) => {
     try {
         const errorsList = validationResult(req) 
         if (!errorsList.isEmpty()) {
             next(createHttpError(400, "There is an error in the request body", {errorsList}))
         } else {
         const newBlog = { ...req.body, createdAt: new Date(), id: uniqid() }
-        const blogs = getBlogs()
+        const blogs = await getBlogs()
 
         blogs.push(newBlog)
         writeBlogs(blogs)
@@ -43,9 +43,9 @@ blogsRouter.post("/", (req, res, next) => {
 
 // Get blogs
 
-blogsRouter.get("/", (req, res, next) => {
+blogsRouter.get("/", async (req, res, next) => {
     try {
-        const blogs = getBlogs()
+        const blogs = await getBlogs()
 
         if (req.query && req.query.category) {
             const filteredBooks = books.filter(book => book.category === req.query.category)
@@ -60,9 +60,9 @@ blogsRouter.get("/", (req, res, next) => {
 
 // Get single blog
 
-blogsRouter.get("/:blogId", (req, res, next) => {
+blogsRouter.get("/:blogId", async (req, res, next) => {
     try {
-        const blogs = getBlogs()
+        const blogs = await getBlogs()
 
         const blog = blogs.find(blog => blog.id === req.params.blogId)
         if (blog) {
@@ -75,11 +75,27 @@ blogsRouter.get("/:blogId", (req, res, next) => {
     }
 })
 
+blogsRouter.get("/:blogId/pdf", async (req, res, next) => {
+    try {
+        const blogs = await getBlogs()
+
+        const blog = blogs.find(blog => blog.id === req.params.blogId)
+        if (blog) {
+            const pdfStream = await generateBlogPDF(blog)
+            res.setHeader("Content-Type", "application/pdf")
+            pdfStream.pipe(res)
+            pdfStream.end()
+        }
+    } catch (err) {
+        res.send(500).send({ message: error.message })
+    }
+})
+
 // Edit blog
 
-blogsRouter.put("/:blogId", (req, res, next) => {
+blogsRouter.put("/:blogId", async (req, res, next) => {
     try {
-        const blogs = getBlogs()
+        const blogs = await getBlogs()
 
         const index = blogs.findIndex(blogs => blogs.id === req.params.blogId)
 
@@ -129,9 +145,9 @@ blogsRouter.put("/:id/cover", parseFile.single("cover"), uploadFile, async (req,
 
 // Delete blog
 
-blogsRouter.delete("/:blogId", (req, res, next) => {
+blogsRouter.delete("/:blogId", async (req, res, next) => {
     try {
-        const blogs = getBlogs()
+        const blogs = await getBlogs()
         const remainingBlogs = blogs.filter(blog => blog.id !== req.params.blogId)
 
         writeBlogs(remainingBlogs)

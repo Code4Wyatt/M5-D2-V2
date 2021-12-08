@@ -8,9 +8,9 @@ import { fileURLToPath } from 'url' // Converts the url to path
 
 import path, {dirname} from "path" // Dirname gives us the absolute path of the directory the currently executed file is in
 
-import { parseFile, uploadFile } from "../../utils/index.js";
+import { parseFile, uploadFile } from "../../utils/upload/index.js";
 
-import { authorsFilePath } from '../../utils/index.js'
+import { authorsFilePath } from '../../utils/upload/index.js'
   
 const __filename = fileURLToPath(import.meta.url) // Storing the file's directory as a path
 

@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Code4Wyatt/M5-D2-V2#readme",
   "dependencies": {
+    "axios": "^0.24.0",
     "cloudinary": "^1.27.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -32,6 +33,7 @@
     "multer": "^1.4.3",
     "multer-storage-cloudinary": "^4.0.0",
     "nodemon": "^2.0.15",
+    "pdfmake": "^0.2.4",
     "uniqid": "^5.4.0",
     "url": "^0.11.0"
   }
