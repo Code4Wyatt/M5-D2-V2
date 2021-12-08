@@ -4,6 +4,7 @@ import PdfPrinter from "pdfmake";
 import striptags from "striptags";
 import axios from "axios";
 
+
 // Declare fonts
 
 const fonts = {
@@ -18,6 +19,8 @@ const fonts = {
 // Declare printer as a new PdfPrinter using the above fonts
 
 const printer = new PdfPrinter(fonts);
+
+// 
 
 export const generateBlogPDF = async (blog) => {
   let imagePart = {};

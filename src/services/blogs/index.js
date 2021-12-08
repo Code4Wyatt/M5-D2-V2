@@ -13,6 +13,8 @@ import createHttpError from 'http-errors'
 import { validationResult } from 'express-validator'
 import { parseFile, uploadFile } from '../../utils/upload/index.js'
 
+import { generateBlogPDF } from "../../utils/pdf/index.js"
+
 const blogsRouter = express.Router()
 
 const blogsJSONPath = join(dirname(fileURLToPath(import.meta.url)), 'blogs.json')
@@ -86,7 +88,7 @@ blogsRouter.get("/:blogId/pdf", async (req, res, next) => {
             pdfStream.pipe(res)
             pdfStream.end()
         }
-    } catch (err) {
+    } catch (error) {
         res.status(500).send({ message: error.message })
     }
 })
