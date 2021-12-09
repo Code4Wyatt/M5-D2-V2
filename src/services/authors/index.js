@@ -76,10 +76,8 @@ authorsRouter.get("/csv", async (req, res, next) => {
       const fields = Object.keys(first);
       res.send(fields);
     } else {
-      res.status(404).send({ message: "No authors"})
+      res.status(404).send({ message: "No authors" });
     }
-      res.send(fileAsJSON); // Send the JSON object
-      
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
