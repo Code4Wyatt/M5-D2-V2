@@ -20,7 +20,7 @@ const fonts = {
 
 const printer = new PdfPrinter(fonts);
 
-// 
+// Generate blog PDF
 
 export const generateBlogPDF = async (blog) => {
   let imagePart = {};
