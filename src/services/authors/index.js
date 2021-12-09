@@ -21,7 +21,6 @@ const __dirname = dirname(__filename) // Storing the filename path as the direct
 const authorsRouter = express.Router()
 
 // Create new author
-
 authorsRouter.post("/", async (req, res, next) => {
     try {
         const { name, surname, email, dateOfBirth } = req.body; // Destructuring the request
@@ -61,6 +60,26 @@ authorsRouter.get("/", async (req, res, next) => {
         const fileAsJSON = JSON.parse(fileAsString); // Insert into JSON object
 
         res.send(fileAsJSON); // Send the JSON object
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+})
+
+// Export all authors as CSV
+authorsRouter.get("/csv", async (req, res, next) => {
+  try {
+    const fileAsBuffer = fs.readFileSync(authorsFilePath); // Read the file 
+    const fileAsString = fileAsBuffer.toString(); // Convert to string
+    const fileAsJSON = JSON.parse(fileAsString); // Insert into JSON object
+    if (fileAsJSON.length > 0) {
+      const { first, ...rest } = fileAsJSON;
+      const fields = Object.keys(first);
+      res.send(fields);
+    } else {
+      res.status(404).send({ message: "No authors"})
+    }
+      res.send(fileAsJSON); // Send the JSON object
+      
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
@@ -190,6 +209,7 @@ authorsRouter.get("/:id", async (req, res, next) => {
 authorsRouter.post("/register", async (req, res, next) => {
   try {
     const { email } = req.body
+
   } catch (error) {
     
   }
