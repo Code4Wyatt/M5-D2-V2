@@ -12,7 +12,7 @@ import createHttpError from 'http-errors'
 
 import { validationResult } from 'express-validator'
 import { parseFile, uploadFile } from '../../utils/upload/index.js'
-
+import { sendRegistrationEmail } from "../../utils/email/email-tools.js"
 import { generateBlogPDF } from "../../utils/pdf/index.js"
 
 const blogsRouter = express.Router()
@@ -30,13 +30,14 @@ blogsRouter.post("/", async (req, res, next) => {
         if (!errorsList.isEmpty()) {
             next(createHttpError(400, "There is an error in the request body", {errorsList}))
         } else {
-        const newBlog = { ...req.body, createdAt: new Date(), id: uniqid() }
-        const blogs = await getBlogs()
+            const newBlog = { ...req.body, createdAt: new Date(), id: uniqid() }
+            const blogs = await getBlogs()
+            const { email } = req.body
 
-        blogs.push(newBlog)
-        writeBlogs(blogs)
-
-        res.status(201).send({ id: newBlog.id })
+            blogs.push(newBlog)
+            writeBlogs(blogs)
+            await sendRegistrationEmail(email)
+            res.status(201).send({ id: newBlog.id })
         }
     } catch (err) {
         next(err)
@@ -76,6 +77,8 @@ blogsRouter.get("/:blogId", async (req, res, next) => {
         next(err)
     }
 })
+
+// Get PDF
 
 blogsRouter.get("/:blogId/pdf", async (req, res, next) => {
     try {

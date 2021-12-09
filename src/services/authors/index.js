@@ -185,7 +185,15 @@ authorsRouter.get("/:id", async (req, res, next) => {
         res.status(500).send({ message: error.message });
       }
     }
-  )
+)
+  
+authorsRouter.post("/register", async (req, res, next) => {
+  try {
+    const { email } = req.body
+  } catch (error) {
+    
+  }
+})
   
   export default authorsRouter;
 
