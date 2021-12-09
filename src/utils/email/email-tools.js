@@ -6,9 +6,9 @@ export const sendRegistrationEmail = async recipientAddress => {
     const email = {
         to: recipientAddress,
         from: process.env.SENDER_EMAIL,
-        subject: "Thank you for registering!",
-        text: "Welcome to our blog site, time to get blogging!",
-        html: "Welcome to our blog site, time to get <strong>blogging!</strong>",
+        subject: "Thank you for posting!",
+        text: "Welcome to our blog site, thank you for making your first post!",
+        html: "Welcome to our blog site, thank you for making your first post",
     }
 
     await sgMail.send(email)
