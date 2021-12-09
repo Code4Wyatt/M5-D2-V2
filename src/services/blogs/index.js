@@ -32,11 +32,10 @@ blogsRouter.post("/", async (req, res, next) => {
         } else {
             const newBlog = { ...req.body, createdAt: new Date(), id: uniqid() }
             const blogs = await getBlogs()
-            const { email } = req.body
 
             blogs.push(newBlog)
             writeBlogs(blogs)
-            await sendPostEmail(email)
+            
             res.status(201).send({ id: newBlog.id })
         }
     } catch (err) {
