@@ -12,7 +12,7 @@ import createHttpError from 'http-errors'
 
 import { validationResult } from 'express-validator'
 import { parseFile, uploadFile } from '../../utils/upload/index.js'
-import { sendRegistrationEmail } from "../../utils/email/email-tools.js"
+import { sendPostEmail } from "../../utils/email/email-tools.js"
 import { generateBlogPDF } from "../../utils/pdf/index.js"
 
 const blogsRouter = express.Router()
@@ -36,7 +36,7 @@ blogsRouter.post("/", async (req, res, next) => {
 
             blogs.push(newBlog)
             writeBlogs(blogs)
-            await sendRegistrationEmail(email)
+            await sendPostEmail(email)
             res.status(201).send({ id: newBlog.id })
         }
     } catch (err) {

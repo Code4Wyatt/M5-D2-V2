@@ -2,7 +2,7 @@ import sgMail from "@sendgrid/mail"
 
 sgMail.setApiKey(process.env.SENDGRID_KEY)
 
-export const sendRegistrationEmail = async recipientAddress => {
+export const sendPostEmail = async recipientAddress => {
     const email = {
         to: recipientAddress,
         from: process.env.SENDER_EMAIL,
